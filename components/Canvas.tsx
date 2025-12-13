@@ -1,6 +1,5 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { AppState } from '../types';
-import { COLORS } from '../constants';
 
 interface CanvasProps {
   state: AppState;
@@ -18,6 +17,11 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
     letterSpacing,
     layoutSeed,
     transparentBackground,
+    backgroundImage,
+    overlayOpacity,
+    showGrid,
+    showShadows,
+    isBold,
   } = state;
 
   // Process text into words with random spacing to achieve the "Constructivist" jagged look
@@ -52,10 +56,26 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
     });
   }, [text, layoutSeed]);
 
+  // CSS for the Swiss Grid pattern
+  const gridStyle = showGrid && !backgroundImage ? {
+    backgroundImage: `
+      linear-gradient(rgba(150, 150, 150, 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(150, 150, 150, 0.2) 1px, transparent 1px)
+    `,
+    backgroundSize: '40px 40px'
+  } : {};
+
+  // CSS for Background Image
+  const backgroundStyle = backgroundImage ? {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  } : {};
+
   return (
     <div className="flex-1 bg-neutral-200 h-screen overflow-auto flex items-center justify-center p-8 relative">
       
-      {/* Pattern Background for the workspace (not exported) */}
+      {/* Workspace Pattern (not exported) */}
       <div 
         className="absolute inset-0 opacity-5 pointer-events-none"
         style={{
@@ -68,18 +88,42 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
       <div
         id="canvas-export"
         ref={canvasRef}
-        className="relative shadow-2xl transition-all duration-300 ease-out origin-center"
+        className="relative shadow-2xl transition-all duration-300 ease-out origin-center overflow-hidden"
         style={{
-          backgroundColor: transparentBackground ? 'transparent' : backgroundColor,
-          minWidth: '800px',
-          minHeight: '600px',
-          padding: '80px',
+          // Base Background logic
+          backgroundColor: transparentBackground && !backgroundImage ? 'transparent' : backgroundColor,
+          ...backgroundStyle,
+          minWidth: '1280px', // Standard YouTube Aspect Ratio 16:9
+          minHeight: '720px',
+          width: '1280px',
+          height: '720px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'flex-start',
+          padding: '80px', // Default padding, adjust as needed
         }}
       >
+        {/* Layer 1: Swiss Grid (Only if no image, or if we want it blended. Here sticking to logic: Grid OR Image) */}
+        {!backgroundImage && showGrid && (
+          <div className="absolute inset-0 pointer-events-none z-0" style={gridStyle} />
+        )}
+
+        {/* Layer 2: Color Overlay for Image (Tint) */}
+        {backgroundImage && (
+          <div 
+            className="absolute inset-0 pointer-events-none z-0 mix-blend-multiply"
+            style={{ 
+              backgroundColor: blockColor, // Tint with the brand color
+              opacity: overlayOpacity 
+            }}
+          />
+        )}
+        
+        {/* Alternate Layer: Darkener if block color tint isn't desired, but prompt asked for overlay. 
+            Usually tints are better for readability. We can also do a standard black overlay.
+            Let's stick to a generic dark overlay tinting towards the brand color for style. */}
+
         {/* Text Rendering Container */}
         <div 
           className="relative z-10 flex flex-wrap content-start items-start w-full"
@@ -91,7 +135,7 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
             <React.Fragment key={index}>
               {item.forceBreak && <div className="w-full h-0 basis-full" />}
               <span
-                className="inline-block font-light uppercase"
+                className={`inline-block uppercase ${isBold ? 'font-bold' : 'font-light'}`}
                 style={{
                   backgroundColor: blockColor,
                   color: textColor,
@@ -103,6 +147,8 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
                   paddingRight: '0.2em',
                   paddingTop: '0.05em',
                   paddingBottom: '0.05em',
+                  // Hard Shadow logic
+                  boxShadow: showShadows ? '12px 12px 0px rgba(0,0,0,0.4)' : 'none',
                   // Ensure sharp edges
                   boxDecorationBreak: 'clone', 
                   WebkitBoxDecorationBreak: 'clone',
@@ -112,11 +158,6 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
               </span>
             </React.Fragment>
           ))}
-        </div>
-
-        {/* Watermark / Brand Footer (Optional, typically used in brand tools) */}
-        <div className="absolute bottom-8 right-8 opacity-0">
-          {/* Hidden by default, but structure exists if needed */}
         </div>
 
       </div>

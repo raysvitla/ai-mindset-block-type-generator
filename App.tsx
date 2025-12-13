@@ -11,7 +11,7 @@ const App: React.FC = () => {
 
   const [state, setState] = useState<AppState>({
     text: DEFAULT_TEXT,
-    textColor: '#FCFCFC', // Default to soft white text since default block is Indigo
+    textColor: '#FCFCFC',
     blockColor: COLORS.AUTOMATION_INDIGO,
     backgroundColor: COLORS.PAPER_WHITE,
     fontSize: 64,
@@ -19,6 +19,12 @@ const App: React.FC = () => {
     letterSpacing: 0,
     layoutSeed: 12345,
     transparentBackground: true,
+    // v2.0 Defaults
+    backgroundImage: null,
+    overlayOpacity: 0.5,
+    showGrid: false,
+    showShadows: false,
+    isBold: false, // Default to Light/Regular
   });
 
   const handleStateChange = (updates: Partial<AppState>) => {
@@ -31,7 +37,8 @@ const App: React.FC = () => {
     try {
       setIsExporting(true);
       const node = canvasRef.current;
-      const scale = 3; // Retina quality
+      // High res export for YouTube Thumbnails (1280x720 min, usually want higher)
+      const scale = 3; 
 
       const config = {
         width: node.clientWidth * scale,
@@ -47,7 +54,7 @@ const App: React.FC = () => {
       const dataUrl = await domtoimage.toPng(node, config);
       
       const link = document.createElement('a');
-      link.download = `ai-mindset-${Date.now()}.png`;
+      link.download = `ai-mindset-thumb-${Date.now()}.png`;
       link.href = dataUrl;
       link.click();
     } catch (error) {

@@ -13,6 +13,12 @@ export interface AppState {
   letterSpacing: number;
   layoutSeed: number;
   transparentBackground: boolean;
+  // v2.0 New Features
+  backgroundImage: string | null;
+  overlayOpacity: number; // 0 to 1
+  showGrid: boolean;
+  showShadows: boolean;
+  isBold: boolean;
 }
 
 export enum PresetName {

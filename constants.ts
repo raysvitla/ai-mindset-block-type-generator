@@ -1,0 +1,26 @@
+import { BrandColor, PresetName } from './types';
+
+// Brand Colors
+export const COLORS = {
+  // Backgrounds
+  PAPER_WHITE: '#F5F5F5',
+  GRAPHITE: '#333333',
+  CONTRAST_WHITE: '#F8F9FA',
+  
+  // Accents
+  AUTOMATION_INDIGO: '#252DA6',
+  CIRCLE_ORANGE: '#FF8C00',
+  TEAMS_TEAL: '#0FA3B1',
+  SIGNAL_RED: '#D92027',
+  CODING_GREEN: '#00A95C',
+};
+
+export const BRAND_PRESETS: { name: PresetName; color: string }[] = [
+  { name: PresetName.AUTOMATION, color: COLORS.AUTOMATION_INDIGO },
+  { name: PresetName.CIRCLE, color: COLORS.CIRCLE_ORANGE },
+  { name: PresetName.TEAMS, color: COLORS.TEAMS_TEAL },
+  { name: PresetName.SIGNAL, color: COLORS.SIGNAL_RED },
+  { name: PresetName.CODING, color: COLORS.CODING_GREEN },
+];
+
+export const DEFAULT_TEXT = "ANALOGUE\nCONSTRUCTIVISM\nSYSTEM";

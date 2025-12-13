@@ -23,4 +23,10 @@ export const BRAND_PRESETS: { name: PresetName; color: string }[] = [
   { name: PresetName.CODING, color: COLORS.CODING_GREEN },
 ];
 
-export const DEFAULT_TEXT = "ANALOGUE\nCONSTRUCTIVISM\nSYSTEM";
+export const DEFAULT_TEXT = "BUILDING\nTHE FUTURE\nWITH AI";
+
+export const FORMATS = {
+  YOUTUBE: { width: 1920, height: 1080, label: 'YouTube' },
+  SQUARE: { width: 1080, height: 1080, label: 'Square' },
+  STORY: { width: 1080, height: 1920, label: 'Story' },
+};

@@ -3,9 +3,10 @@ import domtoimage from 'dom-to-image';
 import Controls from './components/Controls';
 import Canvas from './components/Canvas';
 import { AppState } from './types';
-import { COLORS, DEFAULT_TEXT } from './constants';
+import { COLORS, DEFAULT_TEXT, FORMATS } from './constants';
 
 const App: React.FC = () => {
+  // canvasRef points to the FIXED dimension node (1920x1080), not the wrapper
   const canvasRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState(false);
 
@@ -14,17 +15,29 @@ const App: React.FC = () => {
     textColor: '#FCFCFC',
     blockColor: COLORS.AUTOMATION_INDIGO,
     backgroundColor: COLORS.PAPER_WHITE,
-    fontSize: 64,
+    fontSize: 80,
     lineHeight: 1.1,
     letterSpacing: 0,
     layoutSeed: 12345,
-    transparentBackground: true,
+    transparentBackground: false, 
+    
     // v2.0 Defaults
     backgroundImage: null,
-    overlayOpacity: 0.5,
+    overlayOpacity: 0.6,
     showGrid: false,
-    showShadows: false,
-    isBold: false, // Default to Light/Regular
+    showShadows: true,
+    isBold: true,
+
+    // v3.5/v4.0 Defaults
+    format: 'YOUTUBE',
+    textPosition: { x: 50, y: 50 },
+    textAlignment: 'left',
+    brandTag: 'EPISODE 01',
+    logoImage: null, 
+    logoSize: 100,
+    invertLogo: false, 
+    speakers: [],
+    speakerGrayscale: true,
   });
 
   const handleStateChange = (updates: Partial<AppState>) => {
@@ -37,24 +50,29 @@ const App: React.FC = () => {
     try {
       setIsExporting(true);
       const node = canvasRef.current;
-      // High res export for YouTube Thumbnails (1280x720 min, usually want higher)
-      const scale = 3; 
-
+      const currentFormat = FORMATS[state.format];
+      
+      // CRITICAL V4.0 FIX:
+      // The node in the DOM is ALREADY 1920x1080 (or format size).
+      // We just need to tell dom-to-image to capture it at that exact size.
+      // We pass 'transform: none' to ensure no parent styling interferes.
       const config = {
-        width: node.clientWidth * scale,
-        height: node.clientHeight * scale,
+        width: currentFormat.width,
+        height: currentFormat.height,
         style: {
-          transform: `scale(${scale})`,
+          transform: 'none', 
           transformOrigin: 'top left',
-          width: `${node.clientWidth}px`,
-          height: `${node.clientHeight}px`,
+          width: `${currentFormat.width}px`,
+          height: `${currentFormat.height}px`,
+          margin: '0',
+          padding: '0'
         },
       };
 
       const dataUrl = await domtoimage.toPng(node, config);
       
       const link = document.createElement('a');
-      link.download = `ai-mindset-thumb-${Date.now()}.png`;
+      link.download = `ai-mindset-${state.format.toLowerCase()}-${Date.now()}.png`;
       link.href = dataUrl;
       link.click();
     } catch (error) {

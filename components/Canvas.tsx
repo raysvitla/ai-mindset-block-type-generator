@@ -40,7 +40,7 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
 
   const currentFormat = FORMATS[format];
 
-  // --- LAYOUT CONFIGURATION (v4.1) ---
+  // --- LAYOUT CONFIGURATION (v5.0) ---
   const layout = useMemo(() => {
      // Base values
      const BASE_PAD = 40;
@@ -69,6 +69,14 @@ const Canvas: React.FC<CanvasProps> = ({ state, canvasRef }) => {
            tagScale: 1.5,
            topOffset: 160,      // CRITICAL FIX: Safe Zone for Instagram UI
            sideOffset: BASE_PAD,
+         };
+       case 'BANNER': // 1920x640 (New in v5.0)
+         return {
+           textScale: 0.9,      // Slightly smaller to fit vertical constraint
+           speakerScale: 1.1,   // Conservative size to prevent overflow
+           tagScale: 1.2,
+           topOffset: BASE_PAD,
+           sideOffset: 60,      // Wide format padding
          };
        default:
          return { 

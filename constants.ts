@@ -29,4 +29,5 @@ export const FORMATS = {
   YOUTUBE: { width: 1920, height: 1080, label: 'YouTube' },
   SQUARE: { width: 1080, height: 1080, label: 'Square' },
   STORY: { width: 1080, height: 1920, label: 'Story' },
+  BANNER: { width: 1920, height: 640, label: 'Banner' },
 };

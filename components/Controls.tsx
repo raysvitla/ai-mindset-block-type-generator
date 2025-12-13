@@ -82,7 +82,7 @@ const Controls: React.FC<ControlsProps> = ({ state, onChange, onExport, isExport
       
       {/* Fixed Header */}
       <div className="p-5 border-b border-neutral-800">
-        <h1 className="text-white text-lg font-bold tracking-tight mb-0.5">AI Mindset v3.6</h1>
+        <h1 className="text-white text-lg font-bold tracking-tight mb-0.5">AI Mindset v5.0</h1>
         <p className="text-neutral-500 text-[10px] uppercase tracking-widest font-semibold">Multi-Format Generator</p>
       </div>
 
@@ -95,8 +95,8 @@ const Controls: React.FC<ControlsProps> = ({ state, onChange, onExport, isExport
             <span className="group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div className="p-3 pt-0 flex flex-col gap-4">
-             {/* Format Switcher */}
-             <div className="grid grid-cols-3 gap-1 bg-neutral-900 p-1 rounded border border-neutral-800">
+             {/* Format Switcher - Updated to grid-cols-4 for new Banner format */}
+             <div className="grid grid-cols-4 gap-1 bg-neutral-900 p-1 rounded border border-neutral-800">
                 {(Object.keys(FORMATS) as FormatType[]).map((fmt) => (
                   <button
                     key={fmt}

@@ -10,7 +10,7 @@ export interface Speaker {
   image: string | null;
 }
 
-export type FormatType = 'YOUTUBE' | 'SQUARE' | 'STORY';
+export type FormatType = 'YOUTUBE' | 'SQUARE' | 'STORY' | 'BANNER';
 
 export interface AppState {
   text: string;

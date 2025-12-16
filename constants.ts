@@ -4,6 +4,7 @@ import { BrandColor, PresetName } from './types';
 export const COLORS = {
   // Backgrounds
   PAPER_WHITE: '#F5F5F5',
+  PURE_WHITE: '#FCFCFC', // New v5.1
   GRAPHITE: '#333333',
   CONTRAST_WHITE: '#F8F9FA',
   
@@ -16,6 +17,8 @@ export const COLORS = {
 };
 
 export const BRAND_PRESETS: { name: PresetName; color: string }[] = [
+  { name: PresetName.WHITE, color: COLORS.PURE_WHITE },     // New v5.1
+  { name: PresetName.GRAPHITE, color: COLORS.GRAPHITE },    // New v5.1
   { name: PresetName.AUTOMATION, color: COLORS.AUTOMATION_INDIGO },
   { name: PresetName.CIRCLE, color: COLORS.CIRCLE_ORANGE },
   { name: PresetName.TEAMS, color: COLORS.TEAMS_TEAL },

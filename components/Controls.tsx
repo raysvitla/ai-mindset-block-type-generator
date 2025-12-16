@@ -23,7 +23,11 @@ const Controls: React.FC<ControlsProps> = ({ state, onChange, onExport, isExport
   // --- Handlers ---
 
   const handlePresetClick = (preset: { name: PresetName; color: string }) => {
+    // Determine if text should be white based on block brightness
+    // GRAPHITE, AUTOMATION, TEAMS, SIGNAL, CODING -> White Text
+    // WHITE, CIRCLE -> Dark Text
     const needsWhiteText = [
+      PresetName.GRAPHITE,
       PresetName.AUTOMATION,
       PresetName.TEAMS,
       PresetName.SIGNAL,
@@ -82,7 +86,7 @@ const Controls: React.FC<ControlsProps> = ({ state, onChange, onExport, isExport
       
       {/* Fixed Header */}
       <div className="p-5 border-b border-neutral-800">
-        <h1 className="text-white text-lg font-bold tracking-tight mb-0.5">AI Mindset v5.0</h1>
+        <h1 className="text-white text-lg font-bold tracking-tight mb-0.5">AI Mindset v5.1</h1>
         <p className="text-neutral-500 text-[10px] uppercase tracking-widest font-semibold">Multi-Format Generator</p>
       </div>
 
@@ -95,7 +99,7 @@ const Controls: React.FC<ControlsProps> = ({ state, onChange, onExport, isExport
             <span className="group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div className="p-3 pt-0 flex flex-col gap-4">
-             {/* Format Switcher - Updated to grid-cols-4 for new Banner format */}
+             {/* Format Switcher */}
              <div className="grid grid-cols-4 gap-1 bg-neutral-900 p-1 rounded border border-neutral-800">
                 {(Object.keys(FORMATS) as FormatType[]).map((fmt) => (
                   <button
@@ -303,7 +307,7 @@ const Controls: React.FC<ControlsProps> = ({ state, onChange, onExport, isExport
                   className="group relative flex items-center justify-between px-3 py-1.5 rounded border border-neutral-700 hover:border-neutral-500 transition-all bg-neutral-800 hover:bg-neutral-750"
                 >
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-sm shadow-sm" style={{ backgroundColor: preset.color }} />
+                    <div className="w-3 h-3 rounded-sm shadow-sm border border-black/10" style={{ backgroundColor: preset.color }} />
                     <span className="text-[11px] font-bold text-neutral-300">{preset.name}</span>
                   </div>
                   {state.blockColor === preset.color && <div className="w-1.5 h-1.5 rounded-full bg-white shadow-glow" />}

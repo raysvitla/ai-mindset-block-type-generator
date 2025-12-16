@@ -43,6 +43,8 @@ export interface AppState {
 }
 
 export enum PresetName {
+  WHITE = 'WHITE',
+  GRAPHITE = 'GRAPHITE',
   AUTOMATION = 'AUTOMATION',
   CIRCLE = 'CIRCLE',
   TEAMS = 'TEAMS',

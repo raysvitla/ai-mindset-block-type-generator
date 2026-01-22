@@ -4,7 +4,7 @@ import { BRAND_PRESETS, COLORS, FORMATS } from '../constants';
 import { 
   Download, Type, Palette, Grid, Image as ImageIcon, 
   BoxSelect, Bold, Trash2, UserPlus, AlignLeft, 
-  AlignCenter, AlignRight, Move, BadgeCheck, Users, Upload, RefreshCcw, LayoutTemplate
+  AlignCenter, AlignRight, Move, BadgeCheck, Users, Upload, RefreshCcw, LayoutTemplate, Layers
 } from 'lucide-react';
 
 interface ControlsProps {
@@ -134,10 +134,23 @@ const Controls: React.FC<ControlsProps> = ({ state, onChange, onExport, isExport
               </div>
             )}
             {!state.backgroundImage && (
-              <label className="flex items-center justify-between cursor-pointer group">
-                <span className="text-xs text-neutral-400">Swiss Grid</span>
-                <input type="checkbox" checked={state.showGrid} onChange={(e) => onChange({ showGrid: e.target.checked })} className="w-3 h-3 rounded border-neutral-600 bg-neutral-700 accent-blue-600" />
-              </label>
+              <div className="space-y-2 pt-1 border-t border-neutral-800/50">
+                <label className="flex items-center justify-between cursor-pointer group hover:bg-neutral-800/50 p-1 rounded transition-colors">
+                  <div className="flex items-center gap-2 text-xs text-neutral-400">
+                    <Grid size={12} />
+                    <span>Swiss Grid</span>
+                  </div>
+                  <input type="checkbox" checked={state.showGrid} onChange={(e) => onChange({ showGrid: e.target.checked })} className="w-3 h-3 rounded border-neutral-600 bg-neutral-700 accent-blue-600 cursor-pointer" />
+                </label>
+                
+                <label className="flex items-center justify-between cursor-pointer group hover:bg-neutral-800/50 p-1 rounded transition-colors">
+                  <div className="flex items-center gap-2 text-xs text-neutral-400">
+                    <Layers size={12} />
+                    <span>Transparent Background</span>
+                  </div>
+                  <input type="checkbox" checked={state.transparentBackground} onChange={(e) => onChange({ transparentBackground: e.target.checked })} className="w-3 h-3 rounded border-neutral-600 bg-neutral-700 accent-blue-600 cursor-pointer" />
+                </label>
+              </div>
             )}
           </div>
         </details>
